@@ -9,23 +9,21 @@ services:
       - MYSQL_ROOT_HOST=%
       - MYSQL_ROOT_PASSWORD=test1234@#
     command: ['--character-set-server=utf8mb4', '--collation-server=utf8mb4_unicode_ci']
-    ports:
-      - 3306:3306
     volumes:
       - ./mysql-init:/usr/lib/mysql
     networks:
       - test-network
 
   application:
-    build: .
+    image: rgbcloud/my-weather-diary:latest
     restart: always
     ports:
       - 8080:8080
     depends_on:
       - database
-    container_name: app-test01
+    container_name: MyWeatherDiary-app
     environment:
-      SPRING_DATASOURCE_URL: jdbc:mysql://database:3306/diarydb?useSSL=FALSE&serverTimezone=UTC&useLegacyDatetimeCode=FALSE&allowPublicKeyRetrieval=TRUE
+      SPRING_DATASOURCE_URL: jdbc:mysql://database:3306/diarydb?useSSL=FALSE&serverTimezone=Asia/Seoul&useLegacyDatetimeCode=FALSE&allowPublicKeyRetrieval=TRUE
       SPRING_DATASOURCE_USERNAME: root
       SPRING_DATASOURCE_PASSWORD: test1234@#
     networks:
@@ -35,3 +33,4 @@ services:
 
 networks:
   test-network:
+
